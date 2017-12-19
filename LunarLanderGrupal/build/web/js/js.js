@@ -15,7 +15,7 @@ var altura = null;
 var combustible = null;
 
 //al cargar por completo la página...
-window.onload = function () {
+$(function () {
 
     velocidad = document.getElementById("velocidad");
     altura = document.getElementById("altura");
@@ -23,16 +23,73 @@ window.onload = function () {
 
 
     //definición de eventos
+    //
+    //
+    
+    $(function () { //onload...
+    $("#submit").click(function () { //onclick event
+
+        var url = "Registry";
+        var emess = "Error desconocido";
+        var n = $("#usern").val(); //get name from input
+        var e = $("#pass1").val(); //get age from input
+        var j = $("#name").val();
+        if(n!=""&&e!=""&&j!=""){
+        $.ajax({
+            method: "POST",
+            url: url,
+            data: {user: n, password: e, nombre: j},
+            success: function (u) {
+                alert(u["mess"]);
+            },
+            error: function (e) {
+                if (e["responseJSON"] === undefined)
+                    alert(emess);
+                else
+                    alert(e["responseJSON"]["error"]);
+            }
+        });
+        }
+        else{
+            alert("Completa todos los campos");
+        }
+    });
+    
+    $("#entrar").click(function () { //onclick event
+
+        var url = "GetCookies";
+        var emess = "Error desconocido";
+        var n = $("#username").val(); //get name from input
+        var e = $("#password").val(); //get age from input
+        $.ajax({
+            method: "POST",
+            url: url,
+            data: {user: n, password: e},
+            success: function (u) {
+                alert(u["mess"]);
+                location.reload();
+            },
+            error: function (e) {
+                if (e["responseJSON"] === undefined)
+                    alert(emess);
+                else
+                    alert(e["responseJSON"]["error"]);
+            }
+        });
+
+    });
+});
+    
     //mostrar menú móvil
-    document.getElementById("showm").onclick = function () {
+    $("#shown").click(function() {
         document.getElementsByClassName("c")[0].style.display = "block";
         stop();
-    }
+    });
     //ocultar menú móvil
-    document.getElementById("hidem").onclick = function () {
+    $( "#hidem" ).click(function() {
         document.getElementsByClassName("c")[0].style.display = "none";
         start();
-    }
+    });
     //encender/apagar el motor al hacer click en la pantalla
     document.onclick = function () {
         if (a == g) {
@@ -47,7 +104,7 @@ window.onload = function () {
 
     //Empezar a mover la nave justo después de cargar la página
     start();
-}
+});
 
 //Definición de funciones
 function start() {
