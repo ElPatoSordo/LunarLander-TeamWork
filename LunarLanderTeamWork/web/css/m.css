@@ -35,7 +35,7 @@ body,html{
       position:fixed;
       top:10%;
       width:100%;
-      height:20%;
+      height:15%;
 }
 #nave img{
     height:100%;
@@ -43,4 +43,11 @@ body,html{
 #cpanel{}
 #hidem,#showm{
     float:right;
+}
+#zonaAterrizaje{
+	height:15%;
+	width:60%;
+	position:fixed;
+	bottom:0px;
+	left:20%;
 }
