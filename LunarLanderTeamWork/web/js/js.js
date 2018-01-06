@@ -123,8 +123,8 @@ function moverNave() {
     v += a * dt;
     y += v * dt;
     //actualizar marcadores
-    velocidad.innerHTML = v;
-    altura.innerHTML = y;
+    velocidad.innerHTML = v.toFixed(2);
+    altura.innerHTML = y.toFixed(2);
 
     //mover hasta que top sea un 70% de la pantalla
     if (y < 70) {
@@ -152,5 +152,5 @@ function actualizarFuel() {
     c -= 0.1;
     if (c < 0)
         c = 0;
-    combustible.innerHTML = c;
+    combustible.innerHTML = c.toFixed(2);
 }

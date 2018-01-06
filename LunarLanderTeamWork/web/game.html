@@ -18,17 +18,23 @@ and open the template in the editor.
         <script src="js/js.js"></script>
     </head>
     <body>
-
+        <div id="zonaAterrizaje"><img src="img/luna.png" alt="luna" id="luna"></div>
         <div id="nave">
             <img src="img/nave.png" alt="img nave">
         </div>
 
+
+
         <div class="a">
-            <ul id="cpanel" class="list-group">
-                <li class="list-group-item">Speed <span id="velocidad">100</span> m/s</li>
-                <li class="list-group-item">Fuel <span id="fuel">100</span> l</li>
-                <li class="list-group-item">Height <span id="altura">70</span> m</li>
-            </ul>
+
+            <div id="izquierda">
+                <div id="cpanel">
+                    <div class="controlesNave">Velocidad:<br><b><span id="velocidad">100</span></b> m/s</div>
+                    <div class="controlesNave">Fuel:<br><b><span id="fuel">100</span></b> %</div>
+                    <div class="controlesNave">Altura:<br><b><span id="altura">60</span></b> m</div>
+                    <div id="botonOn"></div>
+                </div>
+            </div>
             <div id="showm">show menu</div>
         </div>
 
@@ -41,16 +47,16 @@ and open the template in the editor.
                 hide menu
             </div>
 
-            <ul id="menu" class="list-inline">
-                <li>Play</li>
-                <li>Play again</li>
-                <li>Settings</li>
-            </ul>
+            <div id="derecha">
+                <div id="reanudar"></div>
+                <div id="pausa"></div>
+                <div id="reinicia"></div>
+                <div id="instrucciones"></div>
+                <div id="botonAjustes"></div>
+            </div>
         </div>
 
-        <div class="d">
-            d
-        </div>
+
 
     </body>
 </html>
