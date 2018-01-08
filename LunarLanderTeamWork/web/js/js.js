@@ -1,5 +1,4 @@
 
-//ENTORNO
 var g = 1.622;
 var dt = 0.016683;
 var timer = null;
@@ -7,13 +6,12 @@ var timerFuel = null;
 //NAVE
 var y = 10; // altura inicial y0=10%, debe leerse al iniciar si queremos que tenga alturas diferentes dependiendo del dispositivo
 var v = 0;
-var c = 100;
 var a = g; //la aceleración cambia cuando se enciende el motor de a=g a a=-g (simplificado)
 //MARCADORES
 var velocidad = null;
 var altura = null;
 var combustible = 100;
-var gasolinaTotal = 100;
+var gasolinaTotal = combustible;
 var intentos = 0;
 
 var modeloNave = 1;
@@ -119,7 +117,7 @@ $(function () {
                 restart();
                 break;
             case 2:
-                combustible = 25;
+                combustible = 35;
                 gasolinaTotal = 35;
                 document.getElementById("dificultad").innerHTML = "Difícil";
                 dificultad = 3;
@@ -140,12 +138,17 @@ $(function () {
         switch (modeloLuna) {
             case 1:
                 document.getElementById("luna").src = "img/mod2luna.png";
-                document.getElementById("modeloLuna").innerHTML = "Gris";
+                document.getElementById("modeloLuna").innerHTML = "Marte";
                 modeloLuna = 2;
                 break;
             case 2:
+                document.getElementById("luna").src = "img/mod3luna.png";
+                document.getElementById("modeloLuna").innerHTML = "Venus";
+                modeloLuna = 3;
+                break;
+            case 3:
                 document.getElementById("luna").src = "img/luna.png";
-                document.getElementById("modeloLuna").innerHTML = "Amarilla";
+                document.getElementById("modeloLuna").innerHTML = "Luna";
                 modeloLuna = 1;
                 break;
         }
@@ -155,19 +158,26 @@ $(function () {
     document.getElementById("modeloNave").onclick = function cambiarModeloNave() {
         switch (modeloNave) {
             case 1:
-                document.getElementById("imgNave").src = "img/mod2nave.gif";
-                document.getElementById("imgMotor").src = "img/mod2motor.gif";
-                document.getElementById("modeloNave").innerHTML = "Modelo PodRacer";
+                document.getElementById("imgNave").src = "img/mod3nave.png";
+                document.getElementById("modeloNave").innerHTML = "Pixel";
                 modeloNave = 2;
                 restart();
                 break;
             case 2:
+                document.getElementById("imgNave").src = "img/mod2nave.png";
+                //document.getElementById("imgMotor").src = "img/motor.gif";
+                document.getElementById("modeloNave").innerHTML = "Freezer";
+                modeloNave = 3;
+                restart();
+                break;
+            case 3:
                 document.getElementById("imgNave").src = "img/nave.png";
-                document.getElementById("imgMotor").src = "img/motor.gif";
-                document.getElementById("modeloNave").innerHTML = "Modelo Estándar";
+                document.getElementById("modeloNave").innerHTML = "Cohete";
                 modeloNave = 1;
                 restart();
                 break;
+                
+                
         }
     }
 
@@ -179,8 +189,10 @@ $(function () {
     //ocultar menú móvil
     $("#hidem").click(function () {
         document.getElementsByClassName("c")[0].style.display = "none";
-        start();
+
     });
+
+    //Empezar a mover la nave justo después de cargar la página
 
     var botonOnSmartphone = document.getElementById("botonOn");
     botonOnSmartphone.addEventListener("touchstart", handlerFunction, false);
@@ -190,31 +202,6 @@ $(function () {
     }
     function endingFunction(event) {
         motorOff();
-    }
-    //encender/apagar el motor al hacer click en la pantalla
-    window.onkeydown = function (e) {
-        var claveTecla;
-        if (window.event)
-            claveTecla = window.event.keyCode;
-        else if (e)
-            claveTecla = e.which;
-        if ((claveTecla == 32))
-        {
-            motorOn();
-        }
-    }
-    window.onkeyup = motorOff;
-
-    //Empezar a mover la nave justo después de cargar la página
-    start();
-    var botonOnSmartphone = document.getElementById("botonOn");
-    botonOnSmartphone.addEventListener("touchstart", handlerFunction, false);
-    botonOnSmartphone.addEventListener("touchend", endingFunction, false);
-    function handlerFunction(event) {
-        encenderMotor();
-    }
-    function endingFunction(event) {
-        apagarMotor();
     }
 
     //CON TECLADO (tecla ESPACIO)
@@ -229,8 +216,11 @@ $(function () {
             motorOn();
         }
     }
-    window.onkeyup = motorOff();
-
+    window.onkeyup = function (e) {
+        motorOff();
+    }
+    start();
+    reiniciarJuego();
 });
 
 //Definición de funciones
@@ -263,7 +253,6 @@ function moverNave() {
 function motorOn() {
     //el motor da aceleración a la nave
     a = -g;
-    document.getElementById("fuel").innerHTML = porcentajeGasolina();
     document.getElementById("imgMotor").style.display = "block";
     if (timerFuel == null) {
         timerFuel = setInterval(function () {
@@ -282,7 +271,7 @@ function motorOff() {
     timerFuel = null;
 }
 function actualizarFuel() {
-    combustible -= 0.1;
+    combustible -= 1;
     document.getElementById("fuel").innerHTML = porcentajeGasolina();
     if (combustible <= 0) {
         motorOff();
