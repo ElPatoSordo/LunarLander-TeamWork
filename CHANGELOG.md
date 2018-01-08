@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0] - 2018-01-08
+### Added
++ Settings to change the game's difficulty, the spaceship and the moon/planet
+
+### Changed
++ Right now, there are three different spaceship and moon/planet models to choose at the settings.
+
 ## [0.4.0] - 2018-01-08
 ### Added
 + Data base definition and JPA entities with controllers
