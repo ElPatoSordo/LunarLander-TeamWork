@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.4.0] - 2018-01-08
+### Added
++ Several spaceship and moon images
+
 ## [0.3.0] - 2018-01-05
 ### Added
 + Several spaceship and moon images
