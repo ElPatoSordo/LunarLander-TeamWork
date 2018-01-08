@@ -2,7 +2,7 @@
 
 ## [0.4.0] - 2018-01-08
 ### Added
-+ Several spaceship and moon images
++ Data base definition and JPA entities with controllers
 
 ## [0.3.0] - 2018-01-05
 ### Added
