@@ -25,24 +25,20 @@ $(function () {
     altura = document.getElementById("altura");
     combustible = document.getElementById("fuel");
 
-
-    //definición de eventos
-    //
-    //
-
     $(function () { //onload...
         $("#submit").click(function () { //onclick event
 
-            var url = "Registry";
+            var url = "UserRegister";
             var emess = "Error desconocido";
             var n = $("#usern").val(); //get name from input
             var e = $("#pass1").val(); //get age from input
             var j = $("#name").val();
-            if (n != "" && e != "" && j != "") {
+            var m = $("#email").val();
+            if (n != "" && e != "" && j != "" && m!="") {
                 $.ajax({
                     method: "POST",
                     url: url,
-                    data: {user: n, password: e, nombre: j},
+                    data: {username: n, password: e, nombre: j, email: m},
                     success: function (u) {
                         alert(u["mess"]);
                     },
@@ -67,7 +63,7 @@ $(function () {
             $.ajax({
                 method: "POST",
                 url: url,
-                data: {user: n, password: e},
+                data: {username: n, password: e},
                 success: function (u) {
                     alert(u["mess"]);
                     location.reload();
@@ -82,8 +78,6 @@ $(function () {
 
         });
     });
-
-
 
     document.getElementById("instrucciones").onclick = function () {
         mostrarInstrucciones();
