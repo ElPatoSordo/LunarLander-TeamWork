@@ -18,13 +18,6 @@ var modeloNave = 1;
 var modeloLuna = 1;
 var dificultad = 1;
 
-var date = new Date();
-var inittime;
-var endtime;
-var viciados = [];
-var scores = [];
-var online = [];
-
 //al cargar por completo la página...
 $(function () {
 
@@ -32,91 +25,48 @@ $(function () {
     altura = document.getElementById("altura");
     combustible = document.getElementById("fuel");
 
-    var emess = "Error desconocido";
-    $.ajax({
-        type: "get",
-        url: "GetPost", //canviar al Servlet després de comprovar que funciona.
-        dataType: "json",
-        success: function (jsn) {
-            $.each(jsn, function (index, value) {
-                var obj = new Object();
-                //var ident = value.nombre;
-                //obj.id = ident;
-                obj.username = value.username;
-                obj.games = value.games;
-                viciados.push(obj);
-                var fila = "<tr><td>"+obj.username+"</td><td>"+obj.games+"</td></tr>"
-                $("#viciadoss").append(fila);
-            });  
-        },
-        error: function (e) {
-            if (e["responseJSON"] === undefined)
-                alert(emess);
-            else
-                alert(e["responseJSON"]["error"]);
-        }
-    });
-    $.ajax({
-        type: "get",
-        url: "GetPost", //canviar al Servlet després de comprovar que funciona.
-        dataType: "json",
-        success: function (jsn) {
-            $.each(jsn, function (index, value) {
-                var obj = new Object();
-                //var ident = value.nombre;
-                //obj.id = ident;
-                obj.username = value.username;
-                obj.score = value.score;
-                viciados.push(obj);
-                var fila = "<tr><td>"+obj.username+"</td><td>"+obj.score+"</td></tr>"
-                $("#scores").append(fila);
-            });  
-        },
-        error: function (e) {
-            if (e["responseJSON"] === undefined)
-                alert(emess);
-            else
-                alert(e["responseJSON"]["error"]);
-        }
-    });
-    $.ajax({
-        type: "get",
-        url: "GetPost", //canviar al Servlet després de comprovar que funciona.
-        dataType: "json",
-        success: function (jsn) {
-            $.each(jsn, function (index, value) {
-                var obj = new Object();
-                //var ident = value.nombre;
-                //obj.id = ident;
-                obj.username = value.username;
-                viciados.push(obj);
-                var fila = "<tr><td>"+obj.username+"</td></tr>"
-                $("#onlines").append(fila);
-            });  
-        },
-        error: function (e) {
-            if (e["responseJSON"] === undefined)
-                alert(emess);
-            else
-                alert(e["responseJSON"]["error"]);
-        }
-    });
-    
-    
-    $("#submit").click(function () { //onclick event
+    $(function () { //onload...
+        $("#submit").click(function () { //onclick event
 
-        var url = "UserRegister";
-        var n = $("#usern").val(); //get name from input
-        var e = $("#pass1").val(); //get age from input
-        var j = $("#name").val();
-        var m = $("#email").val();
-        if (n != "" && e != "" && j != "" && m != "") {
+            var url = "UserRegister";
+            var emess = "Error desconocido";
+            var n = $("#usern").val(); //get name from input
+            var e = $("#pass1").val(); //get age from input
+            var j = $("#name").val();
+            var m = $("#email").val();
+            if (n != "" && e != "" && j != "" && m!="") {
+                $.ajax({
+                    method: "POST",
+                    url: url,
+                    data: {username: n, password: e, nombre: j, email: m},
+                    success: function (u) {
+                        alert(u["mess"]);
+                    },
+                    error: function (e) {
+                        if (e["responseJSON"] === undefined)
+                            alert(emess);
+                        else
+                            alert(e["responseJSON"]["error"]);
+                    }
+                });
+            } else {
+                alert("Completa todos los campos");
+            }
+        });
+
+        $("#entrar").click(function () { //onclick event
+
+            var url = "GetCookies";
+            var emess = "Error desconocido";
+            var n = $("#username").val(); //get name from input
+            var e = $("#password").val(); //get age from input
             $.ajax({
                 method: "POST",
                 url: url,
-                data: {username: n, password: e, nombre: j, email: m},
+                data: {username: n, password: e},
                 success: function (u) {
                     alert(u["mess"]);
+                    location.reload();
                 },
                 error: function (e) {
                     if (e["responseJSON"] === undefined)
@@ -125,40 +75,12 @@ $(function () {
                         alert(e["responseJSON"]["error"]);
                 }
             });
-        } else {
-            alert("Completa todos los campos");
-        }
-    });
 
-    $("#entrar").click(function () { //onclick event
-
-        var url = "GetCookies";
-        var emess = "Error desconocido";
-        var n = $("#username").val(); //get name from input
-        var e = $("#password").val(); //get age from input
-        $.ajax({
-            method: "POST",
-            url: url,
-            data: {username: n, password: e},
-            success: function (u) {
-                alert(u["mess"]);
-                location.reload();
-            },
-            error: function (e) {
-                if (e["responseJSON"] === undefined)
-                    alert(emess);
-                else
-                    alert(e["responseJSON"]["error"]);
-            }
         });
-
     });
 
     document.getElementById("instrucciones").onclick = function () {
         mostrarInstrucciones();
-    };
-    document.getElementById("mScore").onclick = function () {
-        mostrarScore();
     };
     document.getElementById("reinicia").onclick = function () {
         reiniciarJuego();
@@ -248,8 +170,8 @@ $(function () {
                 modeloNave = 1;
                 restart();
                 break;
-
-
+                
+                
         }
     }
 
@@ -298,7 +220,6 @@ $(function () {
 //Definición de funciones
 function start() {
     //cada intervalo de tiempo mueve la nave
-    
     timer = setInterval(function () {
         moverNave();
     }, dt * 1000);
@@ -363,59 +284,9 @@ function finalizarJuego() {
         document.getElementById("gameOver").style.display = "block";
         document.getElementById("intentos").innerHTML = intentos;
 
-        var difficulty = dificultad;
-        var fuel = combustible;
-        var endtime = date.getSeconds();
-        
-        var n = difficulty; //get name from input
-        var e = fuel; //get age from input
-        var j = inittime;
-        var m = endtime;
-        var url; //añadirURL
-        var emess = "Error desconocido";
-        $.ajax({
-            method: "POST",
-            url: url,
-            data: {difficulty: n, fuel: e, inittime: j, endtime: m},
-            success: function (u) {
-                alert(u["mess"]);
-            },
-            error: function (e) {
-                if (e["responseJSON"] === undefined)
-                    alert(emess);
-                else
-                    alert(e["responseJSON"]["error"]);
-            }
-        });
-
     } else {
         document.getElementById("userWin").style.display = "block";
         eventosOff();
-        
-        var difficulty = dificultad;
-        var fuel = combustible;
-        var endtime = date.getSeconds();
-        
-        var n = difficulty; //get name from input
-        var e = fuel; //get age from input
-        var j = inittime;
-        var m = endtime;
-        var url; //añadirURL
-        var emess = "Error desconocido";
-        $.ajax({
-            method: "POST",
-            url: url,
-            data: {difficulty: n, fuel: e, inittime: j, endtime: m},
-            success: function (u) {
-                alert(u["mess"]);
-            },
-            error: function (e) {
-                if (e["responseJSON"] === undefined)
-                    alert(emess);
-                else
-                    alert(e["responseJSON"]["error"]);
-            }
-        });
     }
 }
 function eventosOff() {
@@ -445,7 +316,6 @@ function pausar() {
 }
 
 function reiniciarJuego() {
-    inittime = date.getSeconds();
     stop();
     document.getElementById("reanudar").style.display = "none";
     document.getElementById("pausa").style.display = "inline-block";
@@ -481,15 +351,6 @@ function mostrarAjustes() {
 }
 function ocultarAjustes() {
     document.getElementById("settings").style.display = "none";
-    eventosOn();
-}
-function mostrarScore() {
-    document.getElementById("settings").style.display = "none";
-    document.getElementById("score").style.display = "block";
-    eventosOn();
-}
-function ocultarScore() {
-    document.getElementById("score").style.display = "none";
     eventosOn();
 }
 
