@@ -6,6 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
+        <meta charset="UTF-8">
         <title>Lunar Lander</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,8 +21,10 @@ and open the template in the editor.
     <body>
         <div id="zonaAterrizaje"><img src="img/luna.png" alt="luna" id="luna"></div>
         <div id="nave">
-            <img src="img/nave.png" alt="img nave">
+            <img id ="imgNave" src="img/nave.png" alt="img nave">
+            <img id ="imgMotor" src="img/motor.gif" alt="img motor">
         </div>
+
 
 
 
@@ -47,12 +50,26 @@ and open the template in the editor.
             </div>
 
             <div id="derecha">
-                <div id="reanudar"></div>
+                <div id="reanudar">Reanudar</div>
                 <div id="pausa"></div>
                 <div id="reinicia"></div>
                 <div id="instrucciones"></div>
                 <div id="botonAjustes"></div>
             </div>
+        </div>
+        <div id="gameOver">
+            <h2>¡¡¡GAME OVER!!!</h2>
+            ¡Inténtalo de nuevo! <br>
+            La velocidad de la nave no debe superar los 5 metros/segundo<br><br>
+            <button id="jugarOtraVez"><h3>Probar otra vez</h3></button>
+            <br><br>
+            Intentos realizados: <b><span id="intentos">0</span></b><br><br>
+        </div>
+
+        <div id="userWin">
+            <h2>¡¡¡ENHORABUENA!!!</h2>
+            La NASA estaría orgullosa de contar con pilotos como tú...<br><br>
+            <button id="jugarAgain"><h3>Jugar otra vez</h3></button><br><br>
         </div>
 
         <div id="menuInstrucciones">
@@ -117,5 +134,4 @@ and open the template in the editor.
             </table>
         </div>
     </body> 
-
 </html>
