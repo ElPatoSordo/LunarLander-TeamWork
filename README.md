@@ -10,18 +10,6 @@ Game link: http://35.205.136.41/LunarLanderTeamWork/game.html
 
 Tasks developed:
 
-## Register system:
-+ The login page allows the user to create an account by entering a username, name, email and password. Then, the user can log in with his/her credentials and play the game.
-
-## Games played record
-+ Each game the player plays will be registered in the data base in a table called "Score". The record will contain the configuration's id (this configuration contains the user's id), the begin and end time of the game and the final speed apart from the score's id.
-
-## PAAS
-+ The app is deployed in a PAAS. We used Google Cloud's service to host a virtual machine with tomcat.
-
-## Documentation
-+ This project contains a CHANGELOG file, which contains information about the different versions of the project and a README file, which contains general information about the project.
-
 ## Spaceship:
 + Pressing the space bar or touching the screen of the mobile changes the spaceship to *engine on* state and changes the acceleration from g to -g, and when releasing any of the two, the spaceship returns to *engine off* state.
 + The position of the ship (in percentage of the screen) varies depending on the speed and is a function of acceleration.
@@ -33,3 +21,21 @@ Tasks developed:
 + By pressing the "Configuration" button you can access the difficulty selector and change it by pressing the button that appears.
 + In the desktop version a button has been placed that pauses and resumes the game.
 + There is a  *Instructions* window and another one for the *About* section accessible from the menu.
+
+## Register system:
++ The login page allows the user to create an account by entering a username, name, email and password. Then, the user can log in with his/her credentials and play the game.
+
+## Games played record
++ Each game the player plays will be registered in the data base in a table called "Score". The record will contain the configuration's id (this configuration contains the user's id), the begin and end time of the game and the final speed apart from the score's id.
+
+## Most addicted players
++ The game displays the 10 players with the highest amounts of games played.
+
+## Users online
++ The game displays the players that are currently playing.
+
+## PAAS
++ The app is deployed in a PAAS. We used Google Cloud's service to host a virtual machine with tomcat.
+
+## Documentation
++ This project contains a CHANGELOG file, which contains information about the different versions of the project and a README file, which contains general information about the project.
