@@ -69,7 +69,7 @@ $(function () {
                 viciados.push(obj);
                 var fila = "<tr><td>"+obj.username+"</td><td>"+obj.score+"</td></tr>"
                 $("#scores").append(fila);
-            });  
+            });
         },
         error: function (e) {
             if (e["responseJSON"] === undefined)
@@ -100,7 +100,6 @@ $(function () {
                 alert(e["responseJSON"]["error"]);
         }
     });
-    
     
     $("#submit").click(function () { //onclick event
 
@@ -307,6 +306,9 @@ function stop() {
 }
 
 function moverNave() {
+    if (fuel == 0) {
+		a = g;
+    }
     //cambiar velocidad y posicion
     v += a * dt;
     y += v * dt;
@@ -324,6 +326,7 @@ function moverNave() {
 }
 function motorOn() {
     //el motor da aceleración a la nave
+    if (combustible > 0) {
     a = -g;
     document.getElementById("imgMotor").style.display = "block";
     if (timerFuel == null) {
@@ -331,10 +334,12 @@ function motorOn() {
             actualizarFuel();
         }, 100);
     }
+    }
     if (combustible <= 0) {
         apagarMotor();
         document.getElementById("fuel").innerHTML = 0;
     }
+    
 }
 function motorOff() {
     a = g;
@@ -386,7 +391,6 @@ function finalizarJuego() {
                     alert(e["responseJSON"]["error"]);
             }
         });
-
     } else {
         document.getElementById("userWin").style.display = "block";
         eventosOff();
