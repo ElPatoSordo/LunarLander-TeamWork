@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import model.exceptions.IllegalOrphanException;
 import model.exceptions.NonexistentEntityException;
 
@@ -186,18 +185,6 @@ public class UsersJpaController implements Serializable {
         }
     }
 
-    public Users findUsersByUsername(String username) {
-        EntityManager em = getEntityManager();
-        try {
-            
-            return (Users) em.createNamedQuery("Users.findByUsername").setParameter("username", username).getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        } finally {
-            em.close();
-        }
-    }
-
     public int getUsersCount() {
         EntityManager em = getEntityManager();
         try {
@@ -210,21 +197,5 @@ public class UsersJpaController implements Serializable {
             em.close();
         }
     }
-
-    public List getUsersFreaks() {
-        EntityManager em = getEntityManager();
-        try {
-            Query query = em.createQuery(
-                    "select u.username, count(s.scoreId) from Users u "
-                    + "left join u.configurationList p "
-                    + "left join p.scoreList s "
-                    + "group by u.username "
-                    + "HAVING count(s.scoreId) > 0 "
-                    + "ORDER BY count(s.scoreId) DESC");
-            return query.setMaxResults(10).getResultList();
-
-        } finally {
-            em.close();
-        }
-    }
+    
 }

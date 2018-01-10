@@ -1,51 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <servlet>
-        <servlet-name>LogIn</servlet-name>
-        <servlet-class>servlets.LogIn</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>AutoLogIn</servlet-name>
-        <servlet-class>servlets.AutoLogIn</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Top10Ranking</servlet-name>
-        <servlet-class>servlets.Top10Ranking</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>GetUsers</servlet-name>
-        <servlet-class>servlets.GetUsers</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>CreateConfiguration</servlet-name>
-        <servlet-class>servlets.CreateConfiguration</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LogIn</servlet-name>
-        <url-pattern>/LogIn</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AutoLogIn</servlet-name>
-        <url-pattern>/AutoLogIn</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Top10Ranking</servlet-name>
-        <url-pattern>/Top10Ranking</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>GetUsers</servlet-name>
-        <url-pattern>/GetUsers</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CreateConfiguration</servlet-name>
-        <url-pattern>/CreateConfiguration</url-pattern>
-    </servlet-mapping>
+
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	 version="3.1">
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    <welcome-file-list>
-        <welcome-file>AutoLogIn</welcome-file>
-    </welcome-file-list>
 </web-app>
