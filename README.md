@@ -1,33 +1,35 @@
 # LunarLander-TeamWork
 This project contains:
-* HTML with the elements of the game.
-* Css: three versions that load by media query depending on the screen size.
-* JS: with javascript that covers all the requirements of the project.
-* Optimized images
++ Two HTML files that correspond with the login and the game.
++ Css files to style both pages.
++ JS: with javascript/jquery/ajax that covers all the requirements of the project.
++ Java classes (entities) created with JPA libraries to connect and work with a data base.
++ Optimized images
 
 Game link: http://35.205.136.41/LunarLanderTeamWork/game.html
 
 Tasks developed:
 
-## General:
-* Background, image of the ship and Luna have been placed. A fixed ground has been placed on the screen to be seen on any type of device. The images have been optimized. Different sizes and shapes of backgrounds will be loaded depending on the device using CSS.
-* Pages work in different search engines, such as Internet Explorer, Mozilla Firefox and Google Chrome.
+## Register system:
++ The login page allows the user to create an account by entering a username, name, email and password. Then, the user can log in with his/her credentials and play the game.
 
-## Ship:
-* Pressing the space bar or touching the screen of the mobile changes the ship to *ship with engine turned on* and changes the acceleration of ga -g, and when releasing any of the two, the ship returns to look like *ship with engine off*.
-* The value of g has been changed to 4 for the game to be faster.
-* The position of the ship (in percentage of the screen) varies depending on the speed and is a function of acceleration.
-* Pressing the spacebar or touching the screen of the mobile empties the fuel tank proportionally to the time that we keep pressed the propeller.
-* It has been chosen to eliminate the functionality of turning on the engine when clicking, so that it will only do so when pressing the spacebar or when touching the screen.
-* It has been controlled that the ship "goes off" when it runs out of fuel and when it reaches the ground at the right speed.
-* The reference system has been inverted, that is, the speed of the ship when it goes down will be positive and the height will decrease until it reaches 0.
-* When touching the surface of the Moon, you can see if the impact speed is lower than a threshold value, if yes, a congratulatory message is shown, if not, the ship explodes. In both cases the game ends and can be restarted with the menu option *New game*.
-* Threshold values: 1m / s in difficult mode, 5m / s in medium mode, 7m / s in easy mode.
+## Games played record
++ Each game the player plays will be registered in the data base in a table called "Score". The record will contain the configuration's id (this configuration contains the user's id), the begin and end time of the game and the final speed apart from the score's id.
+
+## PAAS
++ The app is deployed in a PAAS. We used Google Cloud's service to host a virtual machine with tomcat.
+
+## Documentation
++ This project contains a CHANGELOG file, which contains information about the different versions of the project and a README file, which contains general information about the project.
+
+## Spaceship:
++ Pressing the space bar or touching the screen of the mobile changes the spaceship to *engine on* state and changes the acceleration from g to -g, and when releasing any of the two, the spaceship returns to *engine off* state.
++ The position of the ship (in percentage of the screen) varies depending on the speed and is a function of acceleration.
++ Pressing the spacebar or touching the screen of the mobile empties the fuel tank proportionally to the time that we keep pressing the propeller.
++ When touching the surface of the Moon, you can see if the impact speed is lower than a threshold value. If so, a congratulatory message is shown, if not, the ship explodes. In both cases the game ends and can be restarted.
 
 ## Menu:
-* A menu has been created on the side of the screen for the desktop version and a menu that occupies 100% of the space available for the mobile.
-* Among other things, the menu includes a button to start a new game. This will cause the ship to start to fall and restart everything to its initial values if you have played before.
-* By pressing the "Configuration" button you can access the difficulty selector and change it by pressing the button that appears.
-* In the desktop version a button has been placed that pauses and resumes the game by pressing the "P" key. This button is not shown in the mobile version since it has one that shows the menu and pauses the game, and within it has a button to resume the game and hide that menu.
-* In the mobile version, the menu is displayed when the page is loaded. When you open the configuration, the menu is hidden and when it is hidden it is displayed again, so that they do not overlap.
-* There is a page of *Instructions* and a page of *About* accessible from the menu with their respective buttons to return to the initial page.
++ Among other things, the menu includes a button to start a new game. This will cause the ship to start to fall and restart everything to its initial values if you have played before.
++ By pressing the "Configuration" button you can access the difficulty selector and change it by pressing the button that appears.
++ In the desktop version a button has been placed that pauses and resumes the game.
++ There is a  *Instructions* window and another one for the *About* section accessible from the menu.
