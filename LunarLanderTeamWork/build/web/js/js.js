@@ -34,7 +34,7 @@ $(function () {
     var emess = "Error desconocido";
     $.ajax({
         type: "get",
-        url: "GetPost", //canviar al Servlet després de comprovar que funciona.
+        url: "GetPost",
         dataType: "json",
         success: function (jsn) {
             $.each(jsn, function (index, value) {
@@ -130,7 +130,7 @@ $(function () {
 
     $("#entrar").click(function () { //onclick event
 
-        var url = "GetCookies";
+        var url = "LogIn";
         var emess = "Error desconocido";
         var n = $("#username").val(); //get name from input
         var e = $("#password").val(); //get age from input
