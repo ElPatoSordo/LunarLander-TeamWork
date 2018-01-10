@@ -30,4 +30,4 @@ Tasks developed:
 * By pressing the "Configuration" button you can access the difficulty selector and change it by pressing the button that appears.
 * In the desktop version a button has been placed that pauses and resumes the game by pressing the "P" key. This button is not shown in the mobile version since it has one that shows the menu and pauses the game, and within it has a button to resume the game and hide that menu.
 * In the mobile version, the menu is displayed when the page is loaded. When you open the configuration, the menu is hidden and when it is hidden it is displayed again, so that they do not overlap.
-* There is a page of * Instructions * and a page of * About * accessible from the menu with their respective buttons to return to the initial page.
+* There is a page of *Instructions* and a page of *About* accessible from the menu with their respective buttons to return to the initial page.
