@@ -6,7 +6,7 @@ This project contains:
 + Java classes (entities) created with JPA libraries to connect and work with a data base.
 + Optimized images
 
-Game link: http://35.205.136.41/LunarLanderTeamWork/game.html
+Game link: http://35.205.136.41/LunarLanderTeamWork/
 
 Tasks developed:
 
