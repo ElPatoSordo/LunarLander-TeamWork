@@ -7,12 +7,17 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Configuration;
 import model.ConfigurationJpaController;
+import model.Users;
 import model.UsersJpaController;
 
 /**
@@ -38,7 +43,7 @@ public class CreateConfiguration extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreateConfiguration</title>");            
+            out.println("<title>Servlet CreateConfiguration</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet CreateConfiguration at " + request.getContextPath() + "</h1>");
@@ -59,7 +64,7 @@ public class CreateConfiguration extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    
+
     }
 
     /**
@@ -73,16 +78,82 @@ public class CreateConfiguration extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("LunarLanderTeamWorkPU");
+
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("LunarLanderTeamWorkPU");
             UsersJpaController uc = new UsersJpaController(emf);
-       ConfigurationJpaController cc = new ConfigurationJpaController(emf);
-       
-       
+            ConfigurationJpaController cc = new ConfigurationJpaController(emf);
+
+            String cookieName = null;
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("username")) {
+                        cookieName = cookie.getValue();
+                    }
+                }
+            }
+
+            Users a = uc.findUsersByUsername(cookieName);
+
+            if (a == null) {
+                response.setContentType("application/json");
+                PrintWriter pw = response.getWriter();
+                pw.println("{\"mess\":\" El usuario no existe\"}");
+
+            } else if (!cc.existByConfigName(request.getParameter("configName"), a)) {
+                Configuration conf = new Configuration();
+                conf.setConfigName(request.getParameter("configName"));
+                conf.setDifficulty(Integer.parseInt(request.getParameter("nivelDeDificultad")));
+                conf.setSpaceship(Integer.parseInt(request.getParameter("modeloNave")));
+                conf.setMoon(Integer.parseInt(request.getParameter("modeloLuna")));
+                conf.setUserId(a);
+                cc.create(conf);
+                response.setContentType("application/json");
+                PrintWriter pw = response.getWriter();
+                pw.println("{\"mess\":\" Creada\"}");
+                
+            } else {
+
+                response.setContentType("application/json");
+                PrintWriter pw = response.getWriter();
+                pw.println("{\"mess\":\" Ya existe\"}");
+            }
+
+        } catch (Exception e) {
+
+            response.setContentType("application/json");
+            PrintWriter pw = response.getWriter();
+            pw.println("{\"mess\":\" No se ha podido crear\"}");
+
+        }
+
+//            if ( uc.existUserByUsername(cookieName) && (!cc.existByConfigName(request.getParameter("configName"), aux))) {
+//
+//                Configuration conf = new Configuration();
+//
+//                conf.setConfigName(request.getParameter("configName"));
+//                conf.setMoon(Integer.parseInt(request.getParameter("modeloLuna")));
+//                conf.setSpaceship(Integer.parseInt(request.getParameter("modeloNave")));
+//                conf.setDifficulty(Integer.parseInt(request.getParameter("nivelDeDificultad")));
+//                cc.create(conf);
+//                response.setContentType("application/json");
+//                PrintWriter pw = response.getWriter();
+//                pw.println("{\"mess\":\" Creada\"}");
+//
+//            } else {
+//                response.setContentType("application/json");
+//                PrintWriter pw = response.getWriter();
+//                pw.println("{\"mess\":\" No Creada\"}");
+//            }
+//
+//        } catch (Exception e) {
+//            response.setContentType("application/json");
+//            PrintWriter pw = response.getWriter();
+//            pw.println("{\"mess\":\" No se ha podido crear\"}");
+//        }
     }
 
-   
     @Override
     public String getServletInfo() {
         return "Short description";

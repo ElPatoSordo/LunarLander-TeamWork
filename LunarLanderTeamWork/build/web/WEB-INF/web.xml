@@ -20,6 +20,18 @@
         <servlet-name>CreateConfiguration</servlet-name>
         <servlet-class>servlets.CreateConfiguration</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Register</servlet-name>
+        <servlet-class>servlets.Register</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Configurantion</servlet-name>
+        <servlet-class>servlets.Configurations</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetConfiguration</servlet-name>
+        <servlet-class>servlets.GetConfiguration</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LogIn</servlet-name>
         <url-pattern>/LogIn</url-pattern>
@@ -39,6 +51,18 @@
     <servlet-mapping>
         <servlet-name>CreateConfiguration</servlet-name>
         <url-pattern>/CreateConfiguration</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Register</servlet-name>
+        <url-pattern>/Register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Configurantion</servlet-name>
+        <url-pattern>/Configurantion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetConfiguration</servlet-name>
+        <url-pattern>/GetConfiguration</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

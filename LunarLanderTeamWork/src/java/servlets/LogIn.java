@@ -77,7 +77,7 @@ public class LogIn extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String username = request.getParameter("user"); //user
+        String username = request.getParameter("username"); //user
         String pass = request.getParameter("password");
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("LunarLanderTeamWorkPU");
@@ -90,8 +90,8 @@ public class LogIn extends HttpServlet {
             System.out.println("valida Post");
             Cookie cookieName = new Cookie("username", username);
             Cookie cookiePass = new Cookie("password", pass);
-            cookieName.setMaxAge(60 * 5);
-            cookiePass.setMaxAge(60 * 5);
+            cookieName.setMaxAge(60 * 60);
+            cookiePass.setMaxAge(60 * 60);
             cookieName.setPath("/");
             cookiePass.setPath("/");
             response.addCookie(cookiePass);

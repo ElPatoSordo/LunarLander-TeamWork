@@ -5,6 +5,7 @@
  */
 package model;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -37,7 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Configuration.findByConfigName", query = "SELECT c FROM Configuration c WHERE c.configName = :configName")
     , @NamedQuery(name = "Configuration.findByDifficulty", query = "SELECT c FROM Configuration c WHERE c.difficulty = :difficulty")
     , @NamedQuery(name = "Configuration.findBySpaceship", query = "SELECT c FROM Configuration c WHERE c.spaceship = :spaceship")
-    , @NamedQuery(name = "Configuration.findByMoon", query = "SELECT c FROM Configuration c WHERE c.moon = :moon")})
+    , @NamedQuery(name = "Configuration.findByMoon", query = "SELECT c FROM Configuration c WHERE c.moon = :moon")
+    , @NamedQuery(name = "Configuration.findByConfigNameAndUserId", query = "SELECT c FROM Configuration c WHERE c.configName = :configName AND c.userId = :userId")})
 public class Configuration implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,16 +47,22 @@ public class Configuration implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "config_id")
+    @Expose
     private Integer configId;
     @Column(name = "config_name")
+    @Expose
     private String configName;
     @Column(name = "difficulty")
+    @Expose
     private Integer difficulty;
     @Column(name = "spaceship")
+    @Expose
     private Integer spaceship;
     @Column(name = "moon")
+    @Expose
     private Integer moon;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "configId", fetch = FetchType.LAZY)
+
     private List<Score> scoreList;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -148,5 +156,5 @@ public class Configuration implements Serializable {
     public String toString() {
         return "model.Configuration[ configId=" + configId + " ]";
     }
-    
+
 }

@@ -64,6 +64,17 @@ public class UsersJpaController implements Serializable {
             }
         }
     }
+     public boolean existUserByUsername(String username) {
+        EntityManager em = getEntityManager();
+        try {
+            Users aux=(Users) em.createNamedQuery("Users.findByUsername").setParameter("username", username).getSingleResult();
+            return true;
+        } catch (NoResultException e) {
+            return false;
+        } finally {
+            em.close();
+        }
+    }
 
     public void edit(Users users) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;

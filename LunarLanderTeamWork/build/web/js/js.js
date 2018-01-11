@@ -23,6 +23,8 @@ var endtime;
 var viciados = [];
 var scores = [];
 var online = [];
+var configuraciones = [];
+
 
 //al cargar por completo la página...
 $(function () {
@@ -31,79 +33,82 @@ $(function () {
     altura = document.getElementById("altura");
     combustible = document.getElementById("fuel");
 
-    var emess = "Error desconocido";
-    $.ajax({
-        type: "get",
-        url: "GetPost", //canviar al Servlet després de comprovar que funciona.
-        dataType: "json",
-        success: function (jsn) {
-            $.each(jsn, function (index, value) {
-                var obj = new Object();
-                //var ident = value.nombre;
-                //obj.id = ident;
-                obj.username = value.username;
-                obj.games = value.games;
-                viciados.push(obj);
-                var fila = "<tr><td>"+obj.username+"</td><td>"+obj.games+"</td></tr>"
-                $("#viciadoss").append(fila);
-            });  
-        },
-        error: function (e) {
-            if (e["responseJSON"] === undefined)
-                alert(emess);
-            else
-                alert(e["responseJSON"]["error"]);
-        }
-    });
-    $.ajax({
-        type: "get",
-        url: "GetPost", //canviar al Servlet després de comprovar que funciona.
-        dataType: "json",
-        success: function (jsn) {
-            $.each(jsn, function (index, value) {
-                var obj = new Object();
-                //var ident = value.nombre;
-                //obj.id = ident;
-                obj.username = value.username;
-                obj.score = value.score;
-                viciados.push(obj);
-                var fila = "<tr><td>"+obj.username+"</td><td>"+obj.score+"</td></tr>"
-                $("#scores").append(fila);
-            });
-        },
-        error: function (e) {
-            if (e["responseJSON"] === undefined)
-                alert(emess);
-            else
-                alert(e["responseJSON"]["error"]);
-        }
-    });
-    $.ajax({
-        type: "get",
-        url: "GetPost", //canviar al Servlet després de comprovar que funciona.
-        dataType: "json",
-        success: function (jsn) {
-            $.each(jsn, function (index, value) {
-                var obj = new Object();
-                //var ident = value.nombre;
-                //obj.id = ident;
-                obj.username = value.username;
-                viciados.push(obj);
-                var fila = "<tr><td>"+obj.username+"</td></tr>"
-                $("#onlines").append(fila);
-            });  
-        },
-        error: function (e) {
-            if (e["responseJSON"] === undefined)
-                alert(emess);
-            else
-                alert(e["responseJSON"]["error"]);
-        }
-    });
     
+    
+
+//    var emess = "Error desconocido";
+//    $.ajax({
+//        type: "get",
+//        url: "GetPost", //canviar al Servlet després de comprovar que funciona.
+//        dataType: "json",
+//        success: function (jsn) {
+//            $.each(jsn, function (index, value) {
+//                var obj = new Object();
+//                //var ident = value.nombre;
+//                //obj.id = ident;
+//                obj.username = value.username;
+//                obj.games = value.games;
+//                viciados.push(obj);
+//                var fila = "<tr><td>" + obj.username + "</td><td>" + obj.games + "</td></tr>"
+//                $("#viciadoss").append(fila);
+//            });
+//        },
+//        error: function (e) {
+//            if (e["responseJSON"] === undefined)
+//                alert(emess);
+//            else
+//                alert(e["responseJSON"]["error"]);
+//        }
+//    });
+//    $.ajax({
+//        type: "get",
+//        url: "GetPost", //canviar al Servlet després de comprovar que funciona.
+//        dataType: "json",
+//        success: function (jsn) {
+//            $.each(jsn, function (index, value) {
+//                var obj = new Object();
+//                //var ident = value.nombre;
+//                //obj.id = ident;
+//                obj.username = value.username;
+//                obj.score = value.score;
+//                viciados.push(obj);
+//                var fila = "<tr><td>" + obj.username + "</td><td>" + obj.score + "</td></tr>"
+//                $("#scores").append(fila);
+//            });
+//        },
+//        error: function (e) {
+//            if (e["responseJSON"] === undefined)
+//                alert(emess);
+//            else
+//                alert(e["responseJSON"]["error"]);
+//        }
+//    });
+//    $.ajax({
+//        type: "get",
+//        url: "GetPost", //canviar al Servlet després de comprovar que funciona.
+//        dataType: "json",
+//        success: function (jsn) {
+//            $.each(jsn, function (index, value) {
+//                var obj = new Object();
+//                //var ident = value.nombre;
+//                //obj.id = ident;
+//                obj.username = value.username;
+//                viciados.push(obj);
+//                var fila = "<tr><td>" + obj.username + "</td></tr>"
+//                $("#onlines").append(fila);
+//            });
+//        },
+//        error: function (e) {
+//            if (e["responseJSON"] === undefined)
+//                alert(emess);
+//            else
+//                alert(e["responseJSON"]["error"]);
+//        }
+//    });
+
     $("#submit").click(function () { //onclick event
 
-        var url = "UserRegister";
+        var url = "Register";
         var n = $("#usern").val(); //get name from input
         var e = $("#pass1").val(); //get age from input
         var j = $("#name").val();
@@ -128,9 +133,22 @@ $(function () {
         }
     });
 
+    $("#save").click(function () {
+
+        peticionPost();
+
+    });
+
+    $("#load").click(function () {
+
+
+        cargarConfiguraciones();
+    });
+
+
     $("#entrar").click(function () { //onclick event
 
-        var url = "GetCookies";
+        var url = "LogIn";
         var emess = "Error desconocido";
         var n = $("#username").val(); //get name from input
         var e = $("#password").val(); //get age from input
@@ -177,79 +195,21 @@ $(function () {
     document.getElementById("pausa").onclick = function () {
         pausar();
     };
-    document.getElementById("dificultad").onclick = function cambiarDificultad() {
-        switch (dificultad) {
-            case 1:
-                combustible = 50;
-                gasolinaTotal = 50;
-                document.getElementById("dificultad").innerHTML = "Media";
-                dificultad = 2;
-                restart();
-                break;
-            case 2:
-                combustible = 35;
-                gasolinaTotal = 35;
-                document.getElementById("dificultad").innerHTML = "Difícil";
-                dificultad = 3;
-                restart();
-                break;
-            case 3:
-                combustible = 100;
-                gasolinaTotal = 100;
-                document.getElementById("dificultad").innerHTML = "Fácil";
-                dificultad = 1;
-                restart();
-                break;
-        }
+    document.getElementById("dificultad").onclick = function () {
+        cambiarDificultadbtn();
     }
 
     //CAMBIAR LA IMAGEN DE LA LUNA
-    document.getElementById("modeloLuna").onclick = function cambiarModeloLuna() {
-        switch (modeloLuna) {
-            case 1:
-                document.getElementById("luna").src = "img/mod2luna.png";
-                document.getElementById("modeloLuna").innerHTML = "Marte";
-                modeloLuna = 2;
-                break;
-            case 2:
-                document.getElementById("luna").src = "img/mod3luna.png";
-                document.getElementById("modeloLuna").innerHTML = "Venus";
-                modeloLuna = 3;
-                break;
-            case 3:
-                document.getElementById("luna").src = "img/luna.png";
-                document.getElementById("modeloLuna").innerHTML = "Luna";
-                modeloLuna = 1;
-                break;
-        }
+    document.getElementById("modeloLuna").onclick = function () {
+        cambiarLuna();
+
     }
 
     //CAMBIAR LA IMAGEN DE LA NAVE Y EL MOTOR
-    document.getElementById("modeloNave").onclick = function cambiarModeloNave() {
-        switch (modeloNave) {
-            case 1:
-                document.getElementById("imgNave").src = "img/mod3nave.png";
-                document.getElementById("modeloNave").innerHTML = "Pixel";
-                modeloNave = 2;
-                restart();
-                break;
-            case 2:
-                document.getElementById("imgNave").src = "img/mod2nave.png";
-                //document.getElementById("imgMotor").src = "img/motor.gif";
-                document.getElementById("modeloNave").innerHTML = "Freezer";
-                modeloNave = 3;
-                restart();
-                break;
-            case 3:
-                document.getElementById("imgNave").src = "img/nave.png";
-                document.getElementById("modeloNave").innerHTML = "Cohete";
-                modeloNave = 1;
-                restart();
-                break;
-
-
-        }
+    document.getElementById("modeloNave").onclick = function () {
+        cambiarNave();
     }
+
 
     //mostrar menú móvil
     $("#shown").click(function () {
@@ -289,14 +249,17 @@ $(function () {
     window.onkeyup = function (e) {
         motorOff();
     }
-    start();
+    
+    peticionGetConfiguration();
+  
     reiniciarJuego();
+    start();    
 });
 
 //Definición de funciones
 function start() {
     //cada intervalo de tiempo mueve la nave
-    
+    motorOff();
     timer = setInterval(function () {
         moverNave();
     }, dt * 1000);
@@ -307,7 +270,7 @@ function stop() {
 
 function moverNave() {
     if (fuel == 0) {
-		a = g;
+        a = g;
     }
     //cambiar velocidad y posicion
     v += a * dt;
@@ -327,19 +290,19 @@ function moverNave() {
 function motorOn() {
     //el motor da aceleración a la nave
     if (combustible > 0) {
-    a = -g;
-    document.getElementById("imgMotor").style.display = "block";
-    if (timerFuel == null) {
-        timerFuel = setInterval(function () {
-            actualizarFuel();
-        }, 100);
-    }
+        a = -g;
+        document.getElementById("imgMotor").style.display = "block";
+        if (timerFuel == null) {
+            timerFuel = setInterval(function () {
+                actualizarFuel();
+            }, 100);
+        }
     }
     if (combustible <= 0) {
         motorOff();
         document.getElementById("fuel").innerHTML = 0;
     }
-    
+
 }
 function motorOff() {
     a = g;
@@ -370,55 +333,55 @@ function finalizarJuego() {
         var difficulty = dificultad;
         var fuel = combustible;
         var endtime = date.getSeconds();
-        
+
         var n = difficulty; //get name from input
         var e = fuel; //get age from input
         var j = inittime;
         var m = endtime;
-        var url; //añadirURL
+        var url = ""; //añadirURL
         var emess = "Error desconocido";
-        $.ajax({
-            method: "POST",
-            url: url,
-            data: {difficulty: n, fuel: e, inittime: j, endtime: m},
-            success: function (u) {
-                alert(u["mess"]);
-            },
-            error: function (e) {
-                if (e["responseJSON"] === undefined)
-                    alert(emess);
-                else
-                    alert(e["responseJSON"]["error"]);
-            }
-        });
+//        $.ajax({
+//            method: "POST",
+//            url: url,
+//            data: {difficulty: n, fuel: e, inittime: j, endtime: m},
+//            success: function (u) {
+//                alert(u["mess"]);
+//            },
+//            error: function (e) {
+//                if (e["responseJSON"] === undefined)
+//                    alert(emess);
+//                else
+//                    alert(e["responseJSON"]["error"]);
+//            }
+//        });
     } else {
         document.getElementById("userWin").style.display = "block";
         eventosOff();
-        
+
         var difficulty = dificultad;
         var fuel = combustible;
         var endtime = date.getSeconds();
-        
+
         var n = difficulty; //get name from input
         var e = fuel; //get age from input
         var j = inittime;
         var m = endtime;
         var url; //añadirURL
         var emess = "Error desconocido";
-        $.ajax({
-            method: "POST",
-            url: url,
-            data: {difficulty: n, fuel: e, inittime: j, endtime: m},
-            success: function (u) {
-                alert(u["mess"]);
-            },
-            error: function (e) {
-                if (e["responseJSON"] === undefined)
-                    alert(emess);
-                else
-                    alert(e["responseJSON"]["error"]);
-            }
-        });
+//        $.ajax({
+//            method: "POST",
+//            url: url,
+//            data: {difficulty: n, fuel: e, inittime: j, endtime: m},
+//            success: function (u) {
+//                alert(u["mess"]);
+//            },
+//            error: function (e) {
+//                if (e["responseJSON"] === undefined)
+//                    alert(emess);
+//                else
+//                    alert(e["responseJSON"]["error"]);
+//            }
+//        });
     }
 }
 function eventosOff() {
@@ -510,4 +473,294 @@ function restart() {
 function porcentajeGasolina() {
     var result = combustible * 100 / gasolinaTotal;
     return result.toFixed(2);
+}
+
+function peticionGetConfiguration() {
+
+
+    var url = "GetConfiguration";
+    var emess = "hola ha fallado";
+
+    $.ajax({
+        type: "get",
+        url: url,
+        dataType: "json",
+
+        success: function (u) {
+
+            $.each(u, function (i, value) {
+
+                var nombre = value.configName;
+
+                addNombre(nombre);
+
+                if (value.diffculty == 1) {
+                    dificultad = 3;
+                    cambiarDificultadbtn();
+                } else if (value.difficulty == 2) {
+
+                    dificultad = 1;
+                    cambiarDificultadbtn();
+
+                } else if (value.diffculty == 3) {
+
+                    dificultad = 2;
+                    cambiarDificultadbtn();
+                    ;
+                }
+
+                if (value.spaceship == 1) {
+                    modeloNave = 3;
+                    cambiarNave();
+
+                } else if (value.spaceship == 2) {
+                    modeloNave = 1;
+                    cambiarNave();
+                } else if (value.spaceship == 3) {
+                    modeloNave = 2;
+                    cambiarNave();
+
+                }
+
+                if (value.moon == 1) {
+                    modeloLuna = 3;
+                    cambiarLuna();
+
+                } else if (value.moon == 2) {
+                    modeloLuna = 1;
+                    cambiarLuna();
+                } else if (value.moon == 3) {
+                    modeloLuna = 2;
+                    cambiarLuna();
+                }
+
+                var a = new Object();
+                a.nombre = nombre;
+                a.nivelDificultad = value.difficulty;
+                a.modeloNave = value.spaceship;
+                a.modeloLuna = value.moon;
+                configuraciones.push(a);
+                      
+
+            });
+
+
+
+
+
+        },
+        error: function (e) {
+            if (e["responseJSON"] === undefined)
+                alert(emess);
+            else
+                alert(e["responseJSON"]["error"]);
+        }
+    });
+
+
+
+
+}
+
+function peticionPost() {
+
+    var url = "CreateConfiguration";
+    var emess = "Error desconocido";
+    var f = $("#configname").val();
+    var n = dificultad;
+    var e = modeloNave;
+    var r = modeloLuna;
+    $.ajax({
+        method: "POST",
+        url: url,
+        dataType: "json",
+        data: {configName: f, nivelDeDificultad: n, modeloNave: e, modeloLuna: r},
+
+        success: function (u) {
+            alert(u["mess"]);
+            location.reload();
+
+        },
+        error: function (e) {
+            if (e["responseJSON"] === undefined)
+                alert(emess);
+            else
+                alert(e["responseJSON"]["error"]);
+        }
+    });
+
+
+}
+
+function cambiarDificultadbtn() {
+    switch (dificultad) {
+        case 1:
+            combustible = 50;
+            gasolinaTotal = 50;
+            document.getElementById("dificultad").innerHTML = "Media";
+            dificultad = 2;
+            restart();
+            break;
+        case 2:
+            combustible = 35;
+            gasolinaTotal = 35;
+            document.getElementById("dificultad").innerHTML = "Difícil";
+            dificultad = 3;
+            restart();
+            break;
+        case 3:
+            combustible = 100;
+            gasolinaTotal = 100;
+            document.getElementById("dificultad").innerHTML = "Fácil";
+            dificultad = 1;
+            restart();
+            break;
+    }
+
+}
+
+function cambiarNave() {
+    switch (modeloNave) {
+        case 1:
+            document.getElementById("imgNave").src = "img/mod3nave.png";
+            document.getElementById("modeloNave").innerHTML = "Pixel";
+            modeloNave = 2;
+            restart();
+            break;
+        case 2:
+            document.getElementById("imgNave").src = "img/mod2nave.png";
+            //document.getElementById("imgMotor").src = "img/motor.gif";
+            document.getElementById("modeloNave").innerHTML = "Freezer";
+            modeloNave = 3;
+            restart();
+            break;
+        case 3:
+            document.getElementById("imgNave").src = "img/nave.png";
+            document.getElementById("modeloNave").innerHTML = "Cohete";
+            modeloNave = 1;
+            restart();
+            break;
+
+
+    }
+}
+
+function cambiarLuna() {
+    switch (modeloLuna) {
+        case 1:
+            document.getElementById("luna").src = "img/mod2luna.png";
+            document.getElementById("modeloLuna").innerHTML = "Marte";
+            modeloLuna = 2;
+            break;
+        case 2:
+            document.getElementById("luna").src = "img/mod3luna.png";
+            document.getElementById("modeloLuna").innerHTML = "Venus";
+            modeloLuna = 3;
+            break;
+        case 3:
+            document.getElementById("luna").src = "img/luna.png";
+            document.getElementById("modeloLuna").innerHTML = "Luna";
+            modeloLuna = 1;
+            break;
+    }
+}
+
+function cambiarDificultad(mod) {
+    switch (mod) {
+        case 1:
+            combustible = 50;
+            gasolinaTotal = 50;
+            document.getElementById("dificultad").innerHTML = "Media";
+            dificultad = 2;
+            restart();
+            break;
+        case 2:
+            combustible = 35;
+            gasolinaTotal = 35;
+            document.getElementById("dificultad").innerHTML = "Difícil";
+            dificultad = 3;
+            restart();
+            break;
+        case 3:
+            combustible = 100;
+            gasolinaTotal = 100;
+            document.getElementById("dificultad").innerHTML = "Fácil";
+            dificultad = 1;
+            restart();
+            break;
+    }
+
+}
+
+function cambiarModeloNave(mod) {
+    switch (mod) {
+        case 1:
+            document.getElementById("imgNave").src = "img/mod3nave.png";
+            document.getElementById("modeloNave").innerHTML = "Pixel";
+            modeloNave = 2;
+            restart();
+            break;
+        case 2:
+            document.getElementById("imgNave").src = "img/mod2nave.png";
+            //document.getElementById("imgMotor").src = "img/motor.gif";
+            document.getElementById("modeloNave").innerHTML = "Freezer";
+            modeloNave = 3;
+            restart();
+            break;
+        case 3:
+            document.getElementById("imgNave").src = "img/nave.png";
+            document.getElementById("modeloNave").innerHTML = "Cohete";
+            modeloNave = 1;
+            restart();
+            break;
+
+
+    }
+}
+
+function cambiarModeloLuna(mod) {
+    switch (mod) {
+        case 1:
+            document.getElementById("luna").src = "img/mod2luna.png";
+            document.getElementById("modeloLuna").innerHTML = "Marte";
+            modeloLuna = 2;
+            break;
+        case 2:
+            document.getElementById("luna").src = "img/mod3luna.png";
+            document.getElementById("modeloLuna").innerHTML = "Venus";
+            modeloLuna = 3;
+            break;
+        case 3:
+            document.getElementById("luna").src = "img/luna.png";
+            document.getElementById("modeloLuna").innerHTML = "Luna";
+            modeloLuna = 1;
+            break;
+    }
+}
+
+function addNombre(nom) {
+
+
+    var op = document.createElement("option");
+    op.text = nom;
+    document.getElementById("selconf").appendChild(op);
+
+}
+
+function cargarConfiguraciones() {
+
+    var i = document.getElementById("selconf").selectedIndex;
+
+
+    var dificultad = parseInt(configuraciones[i].nivelDificultad);
+    var nave = parseInt(configuraciones[i].modeloNave);
+    var luna = parseInt(configuraciones[i].modeloLuna);
+
+
+
+    cambiarModeloLuna(luna);
+    cambiarModeloNave(nave);
+    cambiarDificultad(dificultad);
+
+
 }
